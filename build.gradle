@@ -1,0 +1,30 @@
+allprojects {
+    group = 'com.github.hawods'
+    version = '1.0-SNAPSHOT'
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+subprojects {
+    pluginManager.withPlugin("java") {
+        apply plugin: 'groovy'
+        dependencies {
+            testImplementation platform("org.spockframework:spock-bom:2.3-groovy-4.0")
+            testImplementation "org.spockframework:spock-core"
+            // optional dependencies for using Spock
+            // only necessary if Hamcrest matchers are used
+            testImplementation "org.hamcrest:hamcrest-core:2.2"
+            // allows mocking of classes (in addition to interfaces)
+            testRuntimeOnly "net.bytebuddy:byte-buddy:1.12.17"
+            // allows mocking of classes without default constructor (together with ByteBuddy or CGLIB)
+            testRuntimeOnly "org.objenesis:objenesis:3.3"
+        }
+        test {
+            useJUnitPlatform()
+        }
+    }
+}
