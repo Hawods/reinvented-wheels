@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] IOC
+- [X] IOC
 - [ ] AOP
 - [ ] MVC
 - [ ] ORM
