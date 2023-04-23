@@ -1,6 +1,9 @@
 package com.github.hawods.context
 
 import com.github.hawods.test.Application
+import com.github.hawods.test.ioc.A
+import com.github.hawods.test.ioc.B
+import com.github.hawods.test.ioc.C
 import com.github.hawods.test.singleton.Singleton
 import com.github.hawods.test.singleton.SingletonA
 import spock.lang.Specification
@@ -42,5 +45,33 @@ class AnnotationConfigApplicationContextTest extends Specification {
         then:
         obj != null
         obj.getClass() == SingletonA.class
+    }
+
+    def "InjectByMethod"() {
+        given:
+        def context = new AnnotationConfigApplicationContext(new Application())
+
+        when:
+        def b = context.getBean(B.class)
+
+        then:
+        b != null
+        b.getA() != null
+        b.getA().class == A.class
+    }
+
+    def "InjectByField"() {
+        given:
+        def context = new AnnotationConfigApplicationContext(new Application())
+
+        when:
+        def c = context.getBean(C.class)
+
+        then:
+        c != null
+        c.getB() != null
+        c.getB().class == B.class
+        c.getB().getA() != null
+        c.getB().getA().class == A.class
     }
 }
