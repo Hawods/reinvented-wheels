@@ -2,6 +2,7 @@ package com.github.hawods.context
 
 import com.github.hawods.test.Application
 import com.github.hawods.test.singleton.Singleton
+import com.github.hawods.test.singleton.SingletonA
 import spock.lang.Specification
 
 /**
@@ -20,7 +21,7 @@ class AnnotationConfigApplicationContextTest extends Specification {
         obj == null
     }
 
-    def "GetBeanTest"() {
+    def "GetBeanByType"() {
         given:
         def context = new AnnotationConfigApplicationContext(new Application())
 
@@ -29,5 +30,17 @@ class AnnotationConfigApplicationContextTest extends Specification {
 
         then:
         obj != null
+    }
+
+    def "GetBeanByName"() {
+        given:
+        def context = new AnnotationConfigApplicationContext(new Application())
+
+        when:
+        def obj = context.getBean("singletonA")
+
+        then:
+        obj != null
+        obj.getClass() == SingletonA.class
     }
 }
